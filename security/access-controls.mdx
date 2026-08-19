@@ -10,7 +10,7 @@ A compliance platform is only as trustworthy as its access controls. PathPilot h
 
 PathPilot supports multiple authentication methods so you can match your organization's identity practices without compromising security.
 
-**Email and password.** Users can sign in with a verified email address and a password that meets PathPilot's complexity requirements (minimum 12 characters, mixed case, at least one number and one special character). Passwords are hashed using bcrypt before storage and are never accessible in plaintext by PathPilot staff.
+**Email and password.** Users can sign in with a verified email address and a password that meets PathPilot's complexity requirements (minimum 12 characters, mixed case, at least one number and one special character). Passwords are stored securely and are never accessible in plaintext by PathPilot staff.
 
 **Single Sign-On (SSO) via SAML 2.0.** PathPilot supports SAML 2.0 federation with any standards-compliant identity provider. Pre-built integrations are available for:
 - Okta
@@ -92,7 +92,7 @@ PathPilot automatically manages session lifecycle to reduce the risk of unauthor
 - **Inactivity timeout.** Sessions expire after **8 hours of inactivity**. When a session expires, the user is redirected to the login page and must re-authenticate. Active sessions — where the user is interacting with the platform — are not affected by this timer.
 - **Absolute session limit.** Regardless of activity, all sessions are invalidated after **24 hours** and require re-authentication. This limit applies even to active sessions.
 - **Admin session revocation.** Workspace admins can revoke any user's active sessions immediately by navigating to **Settings → Users**, selecting the user, and clicking **Revoke All Sessions**. This is useful when offboarding a user or responding to a suspected account compromise.
-- **Token rotation.** PathPilot uses short-lived access tokens with automatic refresh. If a refresh token is used more than once — a sign of token theft — both the original and duplicate sessions are immediately invalidated.
+- **Automatic session protection.** PathPilot detects signs of session tampering or theft and automatically invalidates affected sessions to protect your account. If your session is unexpectedly terminated, simply log in again — if you did not initiate the termination, contact [security@pathpilot.com](mailto:security@pathpilot.com).
 
 ## Audit Logging
 

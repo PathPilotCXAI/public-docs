@@ -1,5 +1,5 @@
 ---
-title: "REST API Reference: Users Endpoints"
+title: "PathPilot API Reference: Users Endpoint Documentation"
 sidebarTitle: "Users"
 description: "Manage PathPilot workspace users via the API. List, invite, update roles, and remove users programmatically with the /v1/users endpoints."
 ---
@@ -10,7 +10,7 @@ The Users API lets you manage the members of your PathPilot workspace programmat
 
 Retrieve a paginated list of all users in your workspace. Filter by role to narrow results.
 
-```
+```http
 GET /v1/users
 ```
 
@@ -98,7 +98,7 @@ curl "https://api.pathpilot.com/v1/users?role=editor&limit=25" \
 
 Retrieve a single user by their ID.
 
-```
+```http
 GET /v1/users/{user_id}
 ```
 
@@ -140,7 +140,7 @@ curl https://api.pathpilot.com/v1/users/usr_4kQm2nR7 \
 
 Send an email invitation to a new user and assign them a role in your workspace. The invited user receives an email prompting them to accept the invitation and create or sign in to their PathPilot account.
 
-```
+```http
 POST /v1/users/invite
 ```
 
@@ -199,7 +199,7 @@ The response returns `201 Created` with an invite object. The `status` field wil
 
 Change the workspace role of an existing user. This takes effect immediately — the user's permissions update the next time they make a request or refresh their session.
 
-```
+```http
 PATCH /v1/users/{user_id}
 ```
 
@@ -249,7 +249,7 @@ curl -X PATCH https://api.pathpilot.com/v1/users/usr_4kQm2nR7 \
 
 Remove a user from your workspace. This immediately revokes their access to all workspace resources. This action does not delete the user's PathPilot account — it only removes their membership from your workspace.
 
-```
+```http
 DELETE /v1/users/{user_id}
 ```
 

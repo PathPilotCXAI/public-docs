@@ -19,11 +19,11 @@ PathPilot runs entirely on Amazon Web Services (AWS), one of the most audited an
 
 Secure infrastructure matters, but so does the code running on top of it. PathPilot follows a secure software development lifecycle (SDLC) that embeds security reviews into every stage of the engineering process.
 
-- **Dependency scanning.** Every third-party library we use is continuously scanned for known vulnerabilities using automated software composition analysis (SCA) tools. Critical findings block deployment until they are remediated.
-- **Static analysis.** Our CI/CD pipeline runs static application security testing (SAST) on every pull request. Findings are triaged by our security team before code reaches production.
+- **Dependency scanning.** Every third-party library we use is continuously scanned for known vulnerabilities using automated software composition analysis (SCA) tools. Critical findings are remediated before they can reach production.
+- **Static analysis.** Automated static application security testing (SAST) runs on all code changes. Findings are triaged by our security team before code reaches production.
 - **Penetration testing.** We commission annual third-party penetration tests against PathPilot's production environment. Test findings are tracked to remediation and summarized in our SOC2 audit report.
 - **Vulnerability disclosure.** If you discover a security issue in PathPilot, we want to hear from you. Our Vulnerability Disclosure Policy is published at [pathpilot.com/security](https://pathpilot.com/security) and we commit to acknowledging all valid reports within 24 hours.
-- **Code review.** All production changes require peer review and passing automated test suites before merging. Changes to security-sensitive systems require review by a senior engineer or a member of the security team.
+- **Code review.** All production changes undergo peer review and automated testing before deployment. Security-sensitive changes receive additional review from our security team.
 
 ## Availability
 

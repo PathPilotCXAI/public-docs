@@ -1,5 +1,5 @@
 ---
-title: "REST API Reference: Webhooks Endpoints"
+title: "PathPilot API Reference: Webhooks REST API Endpoints"
 sidebarTitle: "Webhooks"
 description: "Register webhooks to receive real-time PathPilot event notifications. Configure, test, and manage webhooks via the /v1/webhooks API."
 ---
@@ -21,7 +21,7 @@ Subscribe to any combination of the following event types when creating a webhoo
 
 ## Webhook Payload Format
 
-Every webhook request PathPilot sends contains a consistent JSON payload with a top-level `event` field, an `created_at` timestamp, and a `data` object whose structure depends on the event type.
+Every webhook request PathPilot sends contains a consistent JSON payload with a top-level `event` field, a `created_at` timestamp, and a `data` object whose structure depends on the event type.
 
 ```json
 {
@@ -87,7 +87,7 @@ def handle_webhook():
 
 Retrieve all webhooks registered in your workspace.
 
-```
+```http
 GET /v1/webhooks
 ```
 
@@ -148,7 +148,7 @@ curl https://api.pathpilot.com/v1/webhooks \
 
 Register a new webhook endpoint to receive events from your workspace.
 
-```
+```http
 POST /v1/webhooks
 ```
 
@@ -206,7 +206,7 @@ The `secret` field is included **only in this response**. Copy it and store it i
 
 Permanently remove a webhook from your workspace. PathPilot immediately stops delivering events to the registered URL. Any in-flight deliveries may still arrive within a short window after deletion.
 
-```
+```http
 DELETE /v1/webhooks/{webhook_id}
 ```
 
@@ -231,7 +231,7 @@ A successful request returns `204 No Content`.
 
 Send a test event payload to a registered webhook to verify that your endpoint is reachable and processing payloads correctly. This fires a synthetic `control.status_changed` event regardless of which event types the webhook is subscribed to.
 
-```
+```http
 POST /v1/webhooks/{webhook_id}/test
 ```
 

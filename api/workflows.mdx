@@ -1,5 +1,5 @@
 ---
-title: "REST API Reference: Workflows Endpoints"
+title: "PathPilot API Reference: Workflows REST API Endpoints"
 sidebarTitle: "Workflows"
 description: "Create, manage, and trigger PathPilot workflows via the API. Use /v1/workflows to automate evidence collection and compliance tasks."
 ---
@@ -10,7 +10,7 @@ The Workflows API lets you build, configure, and trigger automation inside PathP
 
 Retrieve a paginated list of all workflows in your workspace.
 
-```
+```http
 GET /v1/workflows
 ```
 
@@ -98,7 +98,7 @@ curl "https://api.pathpilot.com/v1/workflows?status=active&limit=10" \
 
 Retrieve the full configuration of a single workflow by its ID, including its trigger and complete actions list.
 
-```
+```http
 GET /v1/workflows/{workflow_id}
 ```
 
@@ -121,7 +121,7 @@ curl https://api.pathpilot.com/v1/workflows/wfl_3mHj8kRp \
 
 Define a new workflow by specifying its trigger and a sequence of actions to execute. Newly created workflows are `active` by default.
 
-```
+```http
 POST /v1/workflows
 ```
 
@@ -215,7 +215,7 @@ curl -X POST https://api.pathpilot.com/v1/workflows \
 
 Modify an existing workflow's name, trigger, actions, or status. Only the fields you include in the request body are updated — omitted fields retain their current values.
 
-```
+```http
 PATCH /v1/workflows/{workflow_id}
 ```
 
@@ -258,7 +258,7 @@ curl -X PATCH https://api.pathpilot.com/v1/workflows/wfl_1sKw4dYn \
 
 Permanently delete a workflow and its run history. This action cannot be undone. If you want to stop a workflow from running without deleting it, set its `status` to `inactive` instead.
 
-```
+```http
 DELETE /v1/workflows/{workflow_id}
 ```
 
@@ -283,7 +283,7 @@ A successful request returns `204 No Content`.
 
 Execute a workflow immediately, outside of its configured schedule or event trigger. This is useful for testing a workflow or running a one-off execution without modifying the workflow's trigger configuration.
 
-```
+```http
 POST /v1/workflows/{workflow_id}/run
 ```
 
