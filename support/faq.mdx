@@ -1,0 +1,114 @@
+---
+title: "Frequently Asked Questions About PathPilot"
+sidebarTitle: "FAQ"
+description: "Answers to the most common questions about PathPilot: SOC2 readiness, data security, integrations, billing, user access, and more."
+---
+
+Whether you're evaluating PathPilot for the first time or you're a current customer looking for a quick answer, this page covers the questions our team hears most often. If you don't find what you're looking for here, reach out to us at [support@pathpilot.com](mailto:support@pathpilot.com) or browse the rest of our documentation.
+
+---
+
+## Getting Started
+
+<Accordion title="What is SOC2 and do I need it?">
+  SOC2 (System and Organization Controls 2) is an auditing standard developed by the American Institute of Certified Public Accountants (AICPA) for service organizations that store, process, or transmit customer data. A SOC2 report demonstrates to your customers and prospects that you have the controls in place to keep their data secure, available, and private.
+
+  If you sell software or services to enterprise clients, you almost certainly need it — procurement teams and security reviewers routinely require a SOC2 report before signing contracts. Even for smaller deals, having a SOC2 report builds buyer confidence and removes a common sales blocker. If customer data ever touches your systems, PathPilot can help you get — and stay — compliant.
+</Accordion>
+
+<Accordion title="How long does it take to get SOC2 certified with PathPilot?">
+  The timeline depends on which type of report you're pursuing:
+
+  - **SOC2 Type I** — A point-in-time assessment of your controls. Most customers complete Type I readiness in **2–3 months** with PathPilot.
+  - **SOC2 Type II** — An assessment of your controls over a defined observation period, which must be **at least 6 months**. PathPilot's automated evidence collection runs continuously during that window so you're never scrambling at audit time.
+
+  PathPilot accelerates the process by automatically collecting evidence from your connected systems, surfacing control gaps with actionable remediation guidance, and organizing everything your auditor needs into a single, shareable workspace. The biggest variable is how quickly your team can remediate any gaps identified during onboarding.
+</Accordion>
+
+<Accordion title="What frameworks does PathPilot support?">
+  PathPilot currently supports the following compliance frameworks:
+
+  | Framework | Status |
+  |-----------|--------|
+  | **SOC2** — all 5 Trust Service Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy) | ✅ Available |
+  | **ISO 27001** | ✅ Available |
+  | **HIPAA** | 🔜 Coming soon |
+  | **PCI DSS** | 🔜 Coming soon |
+
+  When you set up your PathPilot workspace, you select the frameworks that apply to your organization. Controls are automatically mapped across frameworks so you avoid duplicating work — for example, many SOC2 Security controls overlap directly with ISO 27001 requirements.
+</Accordion>
+
+---
+
+## Security & Data
+
+<Accordion title="Is PathPilot itself SOC2 certified?">
+  Yes. PathPilot holds a **SOC2 Type II** certification, audited annually by an independent third-party auditor. We practice what we preach — every control in PathPilot's own workspace is managed using the product itself.
+
+  To request a copy of our most recent SOC2 Type II report, email [security@pathpilot.com](mailto:security@pathpilot.com). We'll send a copy under NDA on the same business day.
+</Accordion>
+
+<Accordion title="Where is my data stored?">
+  PathPilot stores your data in one of two regions based on your selection at signup:
+
+  - **United States** (default) — hosted on AWS `us-east-1`
+  - **European Union** — hosted on AWS `eu-west-1`
+
+  Your data is always stored exclusively in the region you choose and **never crosses regional boundaries**. If you need to migrate your data to a different region after signup, contact [support@pathpilot.com](mailto:support@pathpilot.com) and our team will coordinate the migration with you.
+</Accordion>
+
+<Accordion title="Can I delete my data?">
+  Yes, you have full control over your data. To request deletion, email [support@pathpilot.com](mailto:support@pathpilot.com) from an Admin account on your workspace.
+
+  - **Non-audit-log data** (uploaded evidence, user profiles, integration configs, and report drafts) is permanently deleted within **30 days** of your request.
+  - **Audit logs** may be retained longer where required by applicable law or our data retention policy, but they will never be used for any purpose other than legal compliance.
+
+  When you close your PathPilot account, a full deletion request is automatically triggered. You'll receive a confirmation email once deletion is complete.
+</Accordion>
+
+---
+
+## Integrations & API
+
+<Accordion title="Which integrations does PathPilot support?">
+  PathPilot connects directly to the tools your engineering, security, and ops teams already use. Current integrations include:
+
+  - **Cloud infrastructure** — AWS, Google Cloud Platform (GCP), Microsoft Azure
+  - **Identity & Access** — Okta, Azure AD, Google Workspace
+  - **Source control & CI/CD** — GitHub, GitLab
+  - **Communication** — Slack
+  - **And more** — new integrations are added regularly based on customer demand
+
+  For the complete, up-to-date list of supported integrations and setup instructions, visit [Integrations](/features/integrations). If you need an integration that isn't listed, contact us — we prioritize integration requests from customers on Pro and Enterprise plans.
+</Accordion>
+
+<Accordion title="Is there an API?">
+  Yes. PathPilot provides a fully documented **RESTful API** that gives you programmatic access to your entire compliance workspace. The API supports full CRUD operations for:
+
+  - **Controls** — create, read, update, and close controls
+  - **Users** — manage workspace members and roles
+  - **Workflows** — trigger and monitor evidence collection workflows
+  - **Reports** — generate and export audit-ready reports
+
+  All API requests are authenticated with a bearer token that you generate from **Settings → API Keys**. Rate limits and endpoint references are documented in our [API Introduction](/api/introduction).
+</Accordion>
+
+---
+
+## Billing & Plans
+
+<Accordion title="Can I try PathPilot before buying?">
+  Yes. Every new account starts with a **14-day free trial** on the Pro plan — no credit card required. During the trial you have full access to all Pro features, including unlimited integrations, automated evidence collection, and audit-ready reporting.
+
+  At the end of the trial you can choose a paid plan or downgrade to Starter. Your data and configurations are preserved regardless of which plan you select.
+</Accordion>
+
+<Accordion title="Do you offer discounts for startups?">
+  Yes. PathPilot offers a startup discount program for early-stage companies. To apply, email [sales@pathpilot.com](mailto:sales@pathpilot.com) with a brief description of your company, your current stage, and how you plan to use PathPilot. Our team reviews applications within 2 business days.
+</Accordion>
+
+<Accordion title="Can I cancel at any time?">
+  Yes, you can cancel your PathPilot subscription at any time with no cancellation fee and no minimum commitment. To cancel, go to **Settings → Billing → Cancel Subscription** and follow the prompts.
+
+  After cancellation your workspace remains accessible in a read-only state until the end of your current billing period, so you can export any reports or evidence you need. After that date, your workspace is archived and data deletion begins according to our retention policy.
+</Accordion>

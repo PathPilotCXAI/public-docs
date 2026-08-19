@@ -1,0 +1,72 @@
+---
+title: "Audit-Ready Reporting & Evidence Export in PathPilot"
+sidebarTitle: "Reporting"
+description: "Generate SOC2 readiness reports, export evidence packages, and share real-time compliance status with auditors directly from PathPilot."
+---
+
+When audit season arrives, the quality of your reporting determines how smoothly the process goes. PathPilot's reporting engine transforms your compliance data — controls, evidence, activity logs, and workflow history — into structured, professional outputs that auditors expect. Whether you need a high-level readiness snapshot or a complete evidence bundle for a specific control, you can generate and share it in minutes.
+
+## Report Types
+
+PathPilot offers four core report types, each designed for a distinct purpose in the audit and compliance management lifecycle.
+
+### SOC2 Readiness Report
+
+The SOC2 Readiness Report gives you a point-in-time snapshot of your entire compliance program. It includes the status of every control mapped to your active frameworks, the evidence currently attached to each control, and a gap analysis highlighting controls that are failing or missing evidence. This report is the single best artifact to review internally before entering a formal audit — it tells you exactly where you stand and what still needs work.
+
+### Evidence Package
+
+The Evidence Package is a bundled export of all evidence artifacts associated with a specific control or an entire framework. It compiles uploaded files, integration-collected logs, screenshots, and policy documents into a single organized archive. Auditors frequently request evidence packages as a starting point for their fieldwork. You can scope the package to a single control, a control category (e.g., Access Control), or your full SOC2 framework.
+
+### Audit Trail Report
+
+The Audit Trail Report provides a complete, time-ordered log of every significant event in your PathPilot environment: changes to control configurations, evidence uploads and rejections, workflow runs, user access events, and administrative actions like role changes or integration connections. This report demonstrates to auditors that your program has consistent oversight and that changes are tracked and attributable to specific individuals.
+
+### Custom Report
+
+The Custom Report builder lets you define exactly which data to include. Filter by framework, date range, control owner, status, or any combination of those dimensions. Custom Reports are useful for executive summaries, board updates, or ad-hoc auditor requests that don't fit neatly into one of the standard formats.
+
+## Generating a Report
+
+<Steps>
+  <Step title="Navigate to the Reports Tab">
+    Click **Reports** in the left sidebar. You'll see a list of any previously generated reports alongside the option to create a new one.
+  </Step>
+  <Step title="Select a Report Type">
+    Click **New Report** and choose from **SOC2 Readiness Report**, **Evidence Package**, **Audit Trail Report**, or **Custom Report**. A short description of each type is shown to help you select the right one.
+  </Step>
+  <Step title="Set the Date Range and Filters">
+    Choose the time period the report should cover. For Evidence Packages, select the target control or framework. For Custom Reports, apply any additional filters by owner, status, or framework. PathPilot will preview the number of controls and evidence items that will be included before you generate.
+  </Step>
+  <Step title="Generate the Report">
+    Click **Generate Report**. Depending on the size of your program, generation typically completes in a few seconds to a couple of minutes. You'll see a progress indicator while PathPilot compiles the data. Once complete, the report appears in your Reports list with a timestamp.
+  </Step>
+  <Step title="Download as PDF or CSV">
+    Open the completed report and click **Download**. Choose **PDF** for a formatted, presentation-ready document suitable for auditors and executives, or **CSV** for a structured data export you can open in a spreadsheet or import into another tool. Evidence Packages are always downloaded as a ZIP archive containing the PDF report and all attached evidence files.
+  </Step>
+</Steps>
+
+## Sharing with Auditors
+
+PathPilot includes a dedicated **Auditor Portal** that lets external auditors review your compliance program directly — without giving them edit access to any of your data.
+
+To set up auditor access, navigate to **Settings → Team** and invite your auditor using their email address. Select the **Auditor** role when sending the invitation. Auditor accounts are read-only: they can log in, browse control details, view evidence, and download artifacts, but they cannot modify any records, run workflows, or access billing or team settings.
+
+This approach eliminates the friction of emailing large evidence archives back and forth. Your auditor works directly in PathPilot against live data, and any evidence you add during the audit window is immediately visible to them.
+
+## Scheduling Reports
+
+For ongoing compliance monitoring, you can set up **Scheduled Reports** that are automatically generated and delivered to specified email addresses on a recurring basis.
+
+To create a schedule, open any saved report and click **Schedule Delivery**. Configure:
+
+- **Frequency** — Weekly or monthly delivery.
+- **Delivery day** — The specific day of the week or month the report should be sent.
+- **Recipients** — One or more email addresses. You can include team members, executives, or external stakeholders.
+- **Format** — PDF or CSV, depending on the recipient's preference.
+
+Scheduled reports run automatically in the background and land in recipients' inboxes without any manual action required. You can pause, modify, or delete a schedule at any time from the Reports tab.
+
+<Tip>
+When you onboard a new CPA firm or external auditor, share your **Auditor Portal** link along with their login credentials at the start of the engagement. This gives them immediate, self-service access to your controls and evidence — dramatically reducing the back-and-forth during fieldwork and cutting days off your audit timeline.
+</Tip>

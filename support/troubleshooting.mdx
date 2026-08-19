@@ -1,0 +1,197 @@
+---
+title: "Troubleshoot Common PathPilot Issues"
+sidebarTitle: "Troubleshooting"
+description: "Step-by-step solutions to the most common PathPilot issues: login problems, integration errors, missing evidence, and workflow failures."
+---
+
+Most PathPilot issues can be resolved in a few minutes with the steps below. Work through the relevant section for your problem, and if you're still stuck after following the steps, contact [support@pathpilot.com](mailto:support@pathpilot.com) with your workspace ID and a description of what you tried.
+
+<Note>
+  Before troubleshooting locally, check [status.pathpilot.com](https://status.pathpilot.com) to confirm there are no active incidents or degraded services affecting the platform. If a platform-wide issue is posted there, our team is already working on it and you'll receive updates via the status page.
+</Note>
+
+---
+
+## Login & Authentication Issues
+
+### I can't log in
+
+If you're unable to sign in to your PathPilot workspace, work through these steps in order:
+
+<Steps>
+  <Step title="Check for a typo in your email address">
+    Make sure you're entering the exact email address associated with your PathPilot account. Check for common mistakes like extra spaces, a wrong domain, or a period in the wrong place.
+  </Step>
+  <Step title="Reset your password">
+    On the login screen, click **Forgot password?** and enter your email address. You'll receive a password reset link within a few minutes. Check your spam folder if it doesn't arrive. The link expires after 30 minutes.
+  </Step>
+  <Step title="Check whether SSO is enforced for your organization">
+    If your organization uses Single Sign-On (SSO), your workspace Admin may have enforced SSO login for all members. In that case, the email/password login form will not work — you must sign in through your identity provider (IdP). Look for the **Sign in with SSO** option on the login page and enter your company email domain.
+  </Step>
+  <Step title="Contact your workspace Admin">
+    If none of the above resolves the issue, ask your workspace Admin to verify your account status in **Settings → Users**. Your account may have been deactivated or your email address may have been changed.
+  </Step>
+</Steps>
+
+### SSO isn't working
+
+If your organization has configured SSO but login is failing for one or more users, check the following:
+
+<Steps>
+  <Step title="Verify your IdP metadata is current">
+    In PathPilot, go to **Settings → SSO** and confirm that the IdP metadata URL or XML is up to date. If your identity provider recently rotated its signing certificate, you'll need to re-upload the updated metadata.
+  </Step>
+  <Step title="Confirm the email domain is in the SSO allowed list">
+    Go to **Settings → SSO → Allowed Domains** and verify that the affected user's email domain (e.g., `yourcompany.com`) is listed. Users whose email domains aren't in the allowed list will not be able to authenticate via SSO.
+  </Step>
+  <Step title="Test with IdP-initiated login">
+    Rather than logging in from PathPilot's login page, open your identity provider's app dashboard (e.g., Okta, Azure AD) and click the PathPilot tile directly. This initiates the SAML assertion from the IdP side and can bypass browser-side configuration issues. If IdP-initiated login succeeds but SP-initiated login fails, the issue is likely with the ACS URL or Entity ID configuration in your IdP.
+  </Step>
+  <Step title="Check your IdP's application logs">
+    Most identity providers surface authentication errors in their own audit logs. Look for failed SAML assertions and note the error code or message — this is often the fastest way to pinpoint misconfiguration.
+  </Step>
+</Steps>
+
+### I lost access to my MFA authenticator
+
+<Steps>
+  <Step title="Contact your workspace Admin">
+    You cannot reset your own MFA device — this must be done by an Admin in your workspace. Reach out to your Admin and ask them to reset MFA for your account.
+  </Step>
+  <Step title="Admin: reset MFA for the affected user">
+    As an Admin, go to **Settings → Users**, find the affected user, and click **Reset MFA**. The user will be prompted to enroll a new authenticator device on their next login.
+  </Step>
+  <Step title="If you are the only Admin">
+    If you are the sole Admin of your workspace and you've lost MFA access, email [support@pathpilot.com](mailto:support@pathpilot.com) from your registered email address. Our team will verify your identity and assist with account recovery.
+  </Step>
+</Steps>
+
+---
+
+## Integration Problems
+
+### My AWS integration shows "Connection Failed"
+
+A "Connection Failed" status on your AWS integration usually means the IAM role PathPilot uses has expired credentials or missing permissions.
+
+<Steps>
+  <Step title="Re-authorize the integration">
+    Go to **Settings → Integrations → AWS** and click **Reconnect**. Follow the on-screen prompts to re-run the CloudFormation stack or re-apply the IAM role configuration.
+  </Step>
+  <Step title="Verify IAM role permissions">
+    The IAM role used by PathPilot requires the following AWS-managed policies as a baseline:
+
+    - `SecurityAudit`
+    - `ReadOnlyAccess` (for services not covered by SecurityAudit)
+
+    Additionally, PathPilot needs the following specific permissions to collect evidence across common Trust Service Criteria:
+
+    - `cloudtrail:GetTrailStatus`, `cloudtrail:DescribeTrails`
+    - `config:DescribeConfigRules`, `config:GetComplianceDetailsByConfigRule`
+    - `iam:GenerateCredentialReport`, `iam:GetCredentialReport`
+    - `s3:GetBucketPolicy`, `s3:GetBucketVersioning`, `s3:GetEncryptionConfiguration`
+
+    If your AWS environment uses Service Control Policies (SCPs), confirm they do not block any of the above actions for the PathPilot role.
+  </Step>
+  <Step title="Check the External ID">
+    PathPilot uses an External ID to securely assume your IAM role. If the role's trust policy has drifted, the External ID may no longer match. Confirm the External ID in **Settings → Integrations → AWS → Configuration** matches what's in your IAM role's trust policy.
+  </Step>
+  <Step title="Contact support if the issue persists">
+    If the connection still fails after re-authorization, contact [support@pathpilot.com](mailto:support@pathpilot.com) and include your AWS Account ID and the error message shown in PathPilot. Do not share your AWS secret keys or credentials.
+  </Step>
+</Steps>
+
+### Evidence isn't being collected automatically
+
+If your integrations appear connected but evidence isn't appearing in PathPilot on schedule, follow these steps:
+
+<Steps>
+  <Step title="Check workflow run history">
+    Go to **Workflows** and open the workflow responsible for collecting the missing evidence. Review the **Run History** tab for any failed runs. Click on a failed run to see the detailed error message — this is usually enough to identify the root cause.
+  </Step>
+  <Step title="Confirm the integration is healthy">
+    Go to **Settings → Integrations** and check the status indicator next to the relevant integration. A yellow or red status means the integration needs attention. Click the integration and follow the reconnection steps if prompted.
+  </Step>
+  <Step title="Verify the workflow is active">
+    In the **Workflows** list, confirm that the workflow is toggled **Active**. Inactive workflows do not run on their scheduled cadence. Click the workflow and toggle it on if it's been paused.
+  </Step>
+  <Step title="Trigger a manual run">
+    You can manually trigger any workflow by clicking **Run Now** from the workflow detail page. This is useful for testing whether evidence collection works on demand before diagnosing a scheduling issue.
+  </Step>
+</Steps>
+
+---
+
+## Evidence & Controls
+
+### A control shows "Failing" but we have evidence
+
+A control marked "Failing" when you believe you have supporting evidence usually comes down to how that evidence is linked.
+
+<Steps>
+  <Step title="Check that evidence is linked to the control">
+    Open the control and click the **Evidence** tab. Review whether any evidence items are listed. If the evidence exists in your library but isn't linked to this control, click **Link Evidence**, search for the relevant item, and select it.
+  </Step>
+  <Step title="Check the evidence expiry date">
+    Some evidence types — such as penetration test reports or vendor assessments — have an expiry date. If the linked evidence has expired, PathPilot will mark the control as failing until you upload a more recent version. Check the **Valid Until** date on each linked evidence item.
+  </Step>
+  <Step title="Review the control's requirements">
+    Open the control's **Details** tab and re-read the description and requirements. In some cases, the uploaded evidence satisfies only part of the control's requirements. You may need to link additional evidence items to fully satisfy the control.
+  </Step>
+</Steps>
+
+### I uploaded evidence but it's not showing up
+
+<Steps>
+  <Step title="Check the file type">
+    PathPilot supports the following file types for evidence uploads:
+
+    **PDF, PNG, JPG, DOCX, CSV, JSON**
+
+    Files in other formats (e.g., `.xlsx`, `.zip`, `.mp4`) are not accepted. If you need to upload an unsupported format, convert it to PDF first.
+  </Step>
+  <Step title="Check the file size">
+    Individual evidence files must be **50 MB or smaller**. Files exceeding this limit are silently rejected at upload. If your file is too large, compress it or split it into multiple files before uploading.
+  </Step>
+  <Step title="Refresh and check the Evidence library">
+    After a successful upload, navigate to the **Evidence** section in the main sidebar. Use the search bar to look for your file by name. If it appears there but not within a specific control, you'll need to link it manually (see above).
+  </Step>
+  <Step title="Try uploading again">
+    If the file meets the type and size requirements but still doesn't appear, try uploading it again in a different browser or in a private/incognito window. Clear your browser cache if the issue persists.
+  </Step>
+</Steps>
+
+---
+
+## Reporting Issues
+
+### Report generation is stuck
+
+<Steps>
+  <Step title="Wait up to 5 minutes">
+    Large reports — especially those covering multiple frameworks or a long observation period — can take up to **5 minutes** to generate. Do not navigate away from the page while generation is in progress. If the progress indicator is still moving, let it complete.
+  </Step>
+  <Step title="Refresh the page">
+    If more than 5 minutes have passed and the report still shows a "Generating" status, refresh the page. In some cases the report has completed in the background and the UI simply needs a refresh to reflect the finished state.
+  </Step>
+  <Step title="Check for partial data issues">
+    Reports that reference controls with missing required fields (such as an unset owner or missing description) can sometimes stall. Review your controls list for any items flagged as incomplete and fill in the required fields before re-generating the report.
+  </Step>
+  <Step title="Contact support">
+    If the report is still stuck after refreshing, contact [support@pathpilot.com](mailto:support@pathpilot.com). Include your workspace ID and the name of the report. Our team can manually trigger re-generation from the backend.
+  </Step>
+</Steps>
+
+### I can't share a report with my auditor
+
+<Steps>
+  <Step title="Confirm your auditor has an Auditor role account">
+    Auditors must have a PathPilot account with the **Auditor** role to access shared reports in the Auditor Portal. Go to **Settings → Users** and verify that your auditor's email address is listed with the Auditor role. If not, invite them using the **Invite User** button and select the Auditor role.
+  </Step>
+  <Step title="Share the direct Auditor Portal link">
+    From the **Reports** section, open the report you want to share and click **Share**. Copy the **Auditor Portal link** and send it directly to your auditor. This link takes them straight to a read-only, auditor-friendly view of the report — they do not need to navigate the rest of the PathPilot UI.
+  </Step>
+  <Step title="Check report visibility settings">
+    Some reports are set to **Internal Only** by default. Open the report's settings and confirm the visibility is set to **Auditor Accessible** or higher.
+  </Step>
+</Steps>

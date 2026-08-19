@@ -1,0 +1,78 @@
+---
+title: "Data Handling & Privacy Practices at PathPilot"
+sidebarTitle: "Data Handling"
+description: "Understand how PathPilot collects, stores, processes, and retains your data, including encryption standards and data residency options."
+---
+
+PathPilot's core function is handling sensitive compliance data on your behalf, and we take that responsibility seriously. We collect only the data required to deliver the service, protect it with strong encryption, give you clear controls over its lifecycle, and never sell it or use it for purposes beyond operating and improving the platform. This page documents our data handling practices in plain language so you can understand exactly what we do — and do not do — with your information.
+
+## Data Classification
+
+PathPilot processes several categories of data as part of normal platform operations. Understanding what data lives where helps you make informed decisions about integrations, access policies, and retention settings.
+
+**Account data** includes the information you provide when setting up your PathPilot workspace: organization name, billing details, user email addresses, and profile information. This data is used to manage your subscription, authenticate users, and communicate with your team.
+
+**Compliance evidence** is the core of what PathPilot stores. This includes control documentation, policy documents, screenshots, exported reports, vendor assessments, and any other artifacts you upload or that PathPilot collects automatically via integrations. Evidence is classified as confidential by default and is accessible only to users with appropriate roles in your workspace.
+
+**Audit logs** are immutable records of every action taken within your PathPilot workspace — who accessed what, when, and from which IP address. Audit logs are generated automatically and cannot be altered or deleted by users. They serve a dual purpose: they support your own SOC2 evidence requirements and they protect PathPilot's platform integrity.
+
+**Integration credentials** are the tokens, API keys, and OAuth grants that PathPilot uses to connect to your cloud providers, identity systems, HR tools, and other third-party services. These credentials are stored encrypted and are never exposed in plaintext through the PathPilot UI or API after initial entry.
+
+## Encryption
+
+Encryption is applied at every layer where your data is stored or transmitted.
+
+**At rest.** All data stored in PathPilot — across databases, object storage, and backup snapshots — is encrypted using AES-256. Encryption keys are managed per tenant through AWS Key Management Service (KMS). Your encryption keys are never shared with or accessible to other PathPilot customers.
+
+**In transit.** All data transmitted between your browser and PathPilot's APIs, and between PathPilot's internal services, is protected with TLS 1.2 or higher. We enforce HTTPS on all endpoints and use HTTP Strict Transport Security (HSTS) to prevent protocol downgrade attacks. Connections negotiating weak cipher suites are rejected at the load balancer.
+
+**Key management.** Tenant encryption keys are automatically rotated on an annual basis. If you require more frequent rotation, contact [security@pathpilot.com](mailto:security@pathpilot.com) to discuss key rotation scheduling for your organization. Key rotation does not cause downtime or require any action on your part.
+
+**Integration credentials.** Credentials stored for third-party integrations are encrypted with a separate key hierarchy that is isolated from your compliance data. Credentials are decrypted only at runtime, in memory, and are never written to logs.
+
+## Data Residency
+
+PathPilot offers data residency options for organizations that need to keep their data within a specific geographic boundary.
+
+- **United States (default).** Data is stored and processed in AWS's US East and US West regions. This is the default for all new accounts.
+- **European Union.** Data is stored and processed in AWS's EU West (Ireland) and EU Central (Frankfurt) regions. This option is available on Pro and Enterprise plans and is designed to support your GDPR compliance obligations.
+
+When you select a data residency region, PathPilot guarantees that your data — including compliance evidence, audit logs, and backups — is stored exclusively in AWS facilities within that region. Data is never replicated across regional boundaries. To configure your data residency region, contact [support@pathpilot.com](mailto:support@pathpilot.com) before your workspace is provisioned, as region selection cannot be changed after initial setup.
+
+## Retention & Deletion
+
+PathPilot applies different retention rules to different categories of data, aligned with both regulatory requirements and practical business needs.
+
+**Audit logs** are retained for **7 years** by default. This retention period is aligned with SOC2 and common regulatory requirements that mandate multi-year audit trails. Audit logs cannot be deleted by users or admins — they are immutable by design. If you have a specific regulatory requirement that conflicts with this default, contact our security team to discuss options.
+
+**Compliance evidence and account data** follow your workspace's activity. While your account is active, all data is retained unless you explicitly delete it. When you close your PathPilot account, all compliance evidence and account data is permanently deleted within **30 days** of account closure. You will receive a confirmation email once deletion is complete.
+
+**Early deletion requests.** If you need specific records deleted before your account closes — for example, to fulfil a data subject access request under GDPR — submit a deletion request to [privacy@pathpilot.com](mailto:privacy@pathpilot.com). We process deletion requests within 30 days and provide written confirmation upon completion.
+
+<Warning>
+Deleting your PathPilot account permanently removes all compliance evidence, policy documents, integration configurations, and user data associated with your workspace. This action cannot be undone. Audit logs are retained separately for the legally required period and are not subject to early deletion. Export any evidence or reports you need before closing your account.
+</Warning>
+
+## Backups
+
+PathPilot performs automated daily backups of all customer data.
+
+- **Frequency.** Full encrypted snapshots are taken once every 24 hours. Incremental backups run every 6 hours between full snapshots.
+- **Retention.** Backup snapshots are retained for 30 days. After 30 days, snapshots are permanently and securely deleted.
+- **Encryption.** All backup snapshots are encrypted with the same AES-256 key hierarchy used for live data. Backup encryption keys are stored separately from the backup data itself.
+- **Testing.** Backup integrity is verified through automated restore drills conducted quarterly. Results are documented and reviewed by the engineering team. Restore procedures are also tested manually during PathPilot's annual disaster recovery exercise.
+- **Geographic redundancy.** Backup snapshots are replicated to a secondary AWS region within your chosen data residency boundary. This ensures backups remain available even if a primary region experiences an outage.
+
+## Sub-processors
+
+PathPilot uses a limited set of trusted sub-processors to deliver the platform. Each sub-processor is vetted for security posture and bound by a Data Processing Agreement (DPA) that reflects the same protections we commit to you.
+
+| Sub-processor | Purpose | Region |
+|---|---|---|
+| **Amazon Web Services (AWS)** | Cloud infrastructure, databases, object storage, and key management | US and EU (based on your residency selection) |
+| **SendGrid (Twilio)** | Transactional email delivery (notifications, invitations, alerts) | US |
+| **Stripe** | Payment processing and subscription billing | US |
+
+The full and current list of PathPilot sub-processors, including their data processing roles and applicable regions, is maintained at [pathpilot.com/sub-processors](https://pathpilot.com/sub-processors). We update this page whenever we add, change, or remove a sub-processor, and we notify workspace admins via email at least 30 days before adding a new sub-processor that processes personal data.
+
+If you have entered into a Data Processing Agreement with PathPilot and object to a new sub-processor, you may raise that objection in writing to [privacy@pathpilot.com](mailto:privacy@pathpilot.com) within the 30-day notice window.

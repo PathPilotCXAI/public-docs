@@ -1,30 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
+  "projectType": "saas",
+  "projectName": "PathPilot",
+  "projectDescription": "PathPilot is a SaaS platform that helps organizations navigate compliance, security, and operational workflows with confidence.",
   "theme": "almond",
-  "name": "PathPilot",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:support@pathpilot.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Sign In",
-      "href": "https://app.pathpilot.com"
-    }
-  },
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
   "navigation": {
     "tabs": [
       {
@@ -100,10 +81,24 @@
       }
     ]
   },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/pathpilot",
-      "linkedin": "https://linkedin.com/company/pathpilot"
-    }
-  }
+  "keyFeatures": [
+    "SOC2-compliant infrastructure and controls documentation",
+    "Workflow automation and management",
+    "Role-based access control (RBAC)",
+    "Real-time reporting and audit logs",
+    "Third-party integrations",
+    "Secure authentication with MFA support",
+    "Incident response and notification management",
+    "RESTful API with webhook support"
+  ],
+  "publicApiSurface": [
+    "GET /api/v1/users",
+    "POST /api/v1/users",
+    "GET /api/v1/workflows",
+    "POST /api/v1/workflows",
+    "GET /api/v1/reports",
+    "POST /api/v1/webhooks",
+    "DELETE /api/v1/webhooks/{id}",
+    "GET /api/v1/audit-logs"
+  ]
 }

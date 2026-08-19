@@ -1,0 +1,97 @@
+---
+title: "PathPilot Incident Response & Security Notifications"
+sidebarTitle: "Incident Response"
+description: "Learn how PathPilot handles security incidents, how we notify customers, and what steps you should take if you suspect a breach."
+---
+
+No platform can guarantee it will never face a security incident. What distinguishes trustworthy vendors is how they prepare for, respond to, and communicate about incidents when they occur. PathPilot maintains a formal incident response program that is tested annually, refined after every significant event, and designed to put customer protection first. This page explains how to report a security issue to us, how we handle incidents internally, and what you should do if you suspect your PathPilot workspace has been compromised.
+
+## Reporting a Security Issue
+
+If you discover a vulnerability, suspicious behavior, or any security concern involving PathPilot's platform, infrastructure, or applications, we want to hear from you immediately — responsible disclosure helps us protect every customer on the platform.
+
+**How to report:**
+
+- **Email:** Send a detailed report to [security@pathpilot.com](mailto:security@pathpilot.com). Include a description of the issue, steps to reproduce, any proof-of-concept code or screenshots, and the potential impact as you understand it. The more detail you provide, the faster we can triage and respond.
+- **PGP encryption:** If your report contains sensitive technical details, you can encrypt it using PathPilot's PGP public key, available at [pathpilot.com/security](https://pathpilot.com/security). Encrypted submissions are decrypted only by members of PathPilot's security team.
+- **Response time:** We acknowledge all valid security reports within **24 hours** of receipt. We commit to keeping you informed of our progress at regular intervals until the issue is resolved.
+
+PathPilot does not pursue legal action against researchers who discover and responsibly disclose security issues in good faith. Our full Vulnerability Disclosure Policy — including scope, safe harbor terms, and reward eligibility — is published at [pathpilot.com/security](https://pathpilot.com/security).
+
+<Note>
+PathPilot maintains a Vulnerability Disclosure Policy at [pathpilot.com/security](https://pathpilot.com/security). The policy outlines what is in scope for disclosure, how we handle reports, and the safe harbor protections we extend to good-faith researchers. Please review the policy before submitting a report.
+</Note>
+
+## PathPilot's Incident Response Process
+
+When a potential security incident is detected — whether through internal monitoring, an external report, or a third-party notification — PathPilot's security team follows a structured response process. This process is aligned with NIST SP 800-61 and is reviewed and updated after every significant incident.
+
+<Steps>
+  <Step title="Detection">
+    PathPilot's monitoring systems run continuously across all production infrastructure, generating alerts for anomalous behavior including unusual access patterns, unexpected data egress, authentication failures, and configuration changes. Alerts are triaged by on-call engineers 24/7. Potential incidents are classified by severity (Critical, High, Medium, Low) within 1 hour of initial detection.
+  </Step>
+  <Step title="Containment">
+    Once an incident is confirmed, the immediate priority is to limit its scope. Depending on the nature of the incident, containment actions may include isolating affected systems, revoking compromised credentials, blocking malicious IP addresses, and temporarily restricting affected features. Containment decisions are made by the incident commander in coordination with the security team, with a bias toward aggressive action to protect customer data.
+  </Step>
+  <Step title="Eradication">
+    After containment, the team investigates the root cause of the incident — whether a vulnerability, a misconfiguration, a compromised credential, or a third-party failure — and eliminates it. This phase may involve patching software, rotating credentials, removing malicious artifacts, or reconfiguring access controls. Eradication is not declared complete until the root cause is fully understood and addressed.
+  </Step>
+  <Step title="Recovery">
+    With the threat eliminated, affected systems are carefully restored to normal operation. Recovery is staged: systems are brought back online incrementally with heightened monitoring to verify that the incident has been fully resolved and does not recur. PathPilot confirms system integrity before lifting any customer-facing restrictions.
+  </Step>
+  <Step title="Post-Incident Review">
+    Within 5 business days of incident resolution, the team conducts a blameless post-mortem to document what happened, how it was detected, what the response looked like, and what improvements will prevent recurrence. Post-mortem findings feed directly into remediation work items and control updates in PathPilot's own compliance program. Summaries of significant incidents are available to customers upon request.
+  </Step>
+</Steps>
+
+**Customer notification timeline.** For incidents involving a confirmed breach of customer data, PathPilot notifies affected customers within **72 hours** of confirming that a breach occurred. This timeline complies with GDPR's Article 33 notification requirement and matches or exceeds the notification windows required by most US state privacy laws. We notify customers as soon as we have confirmed facts — we do not wait until the investigation is complete.
+
+## Customer Notification
+
+When an incident affects your workspace or data, PathPilot communicates through two channels simultaneously:
+
+**Email to workspace admins.** All Admin-role users in your PathPilot workspace receive a direct email from [security@pathpilot.com](mailto:security@pathpilot.com). The notification includes:
+- A description of the incident and its confirmed scope
+- Whether your organization's data was specifically involved
+- What PathPilot has done or is doing to contain and remediate the issue
+- What, if anything, you need to do in response
+- A point of contact for questions and updates
+
+**Status page update.** PathPilot's public status page at [status.pathpilot.com](https://status.pathpilot.com) is updated in real time during incidents. For security incidents, status page entries are carefully worded to communicate impact without disclosing information that could assist active threat actors. Historical incident records, including post-incident summaries, are preserved indefinitely on the status page.
+
+You can subscribe to status page notifications at [status.pathpilot.com](https://status.pathpilot.com) to receive immediate email or SMS alerts for any new incidents or status changes — not just security events, but any availability or performance issues affecting the platform.
+
+## What You Should Do
+
+If you notice suspicious activity in your PathPilot workspace — unexpected logins, unfamiliar API key usage, modified controls, or anything else that seems wrong — take the following steps immediately. Do not wait to confirm your suspicion before acting.
+
+<Steps>
+  <Step title="Change Your Password">
+    Go to **Settings → Security → Change Password** and set a new, strong password immediately. If you use the same password elsewhere, change it on those services too.
+  </Step>
+  <Step title="Revoke All API Keys">
+    Navigate to **Settings → API Keys** and revoke every active API key for your workspace. Re-issue only the keys you need, with the minimum required permissions. Treat all existing keys as compromised.
+  </Step>
+  <Step title="Terminate Active Sessions">
+    Go to **Settings → Security → Active Sessions** and click **Revoke All Sessions** to immediately log out all devices and browsers. If you are a workspace admin, also revoke sessions for any users who may be affected.
+  </Step>
+  <Step title="Review the Audit Log">
+    Navigate to **Settings → Audit Log** and filter for the past 7 days. Look for actions you do not recognize — unexpected logins from unfamiliar IP addresses, evidence deletions, role changes, or SSO configuration modifications. Export the log as CSV for your records.
+  </Step>
+  <Step title="Contact PathPilot Support">
+    Email [security@pathpilot.com](mailto:security@pathpilot.com) with a description of what you observed, including relevant timestamps and any audit log entries. Our security team will investigate and respond within 4 hours for suspected active compromises. Include **[URGENT]** in the subject line to flag the report for immediate triage.
+  </Step>
+</Steps>
+
+## Status Page
+
+PathPilot's status page at [status.pathpilot.com](https://status.pathpilot.com) is your authoritative source for real-time and historical information about platform availability and security incidents.
+
+The status page shows:
+- **Current status** of all platform components (API, dashboard, integrations, background jobs)
+- **Active incidents** with live updates as the response progresses
+- **Scheduled maintenance** windows announced at least 72 hours in advance
+- **Historical uptime** data going back 90 days
+- **Incident history** with post-incident summaries for resolved events
+
+Subscribe to updates by clicking **Subscribe to Updates** on the status page. You can choose to receive notifications by email or SMS for incidents, maintenance windows, or all status changes.

@@ -1,0 +1,62 @@
+---
+title: "PathPilot Security: How We Protect Your Data"
+sidebarTitle: "Security Overview"
+description: "Learn how PathPilot protects customer data with encryption, access controls, SOC2-compliant infrastructure, and continuous monitoring."
+---
+
+Security is not an afterthought at PathPilot — it is built into every layer of the platform. From the infrastructure that runs your workloads to the application code that processes your compliance evidence, we apply defense-in-depth principles to keep your data safe, available, and confidential. This page gives you a concise, honest picture of how we operate so you can make an informed decision about trusting PathPilot with your most sensitive compliance data.
+
+## Infrastructure Security
+
+PathPilot runs entirely on Amazon Web Services (AWS), one of the most audited and battle-tested cloud platforms available. Every deployment decision we make starts with the question: *what does a secure, resilient baseline look like?*
+
+- **Encryption at rest.** All customer data — including compliance evidence, audit logs, and integration credentials — is encrypted using AES-256 before it is written to disk. Encryption keys are managed per tenant through AWS Key Management Service (KMS), so your data is cryptographically isolated from every other customer on the platform.
+- **Encryption in transit.** All data moving between your browser, our APIs, and internal services is protected with TLS 1.2 or higher. We reject connections that negotiate weaker cipher suites.
+- **Tenant isolation.** Each organization on PathPilot operates in a logically isolated environment. Databases, object storage buckets, and encryption keys are scoped per tenant — your data is never co-mingled with another organization's data at the storage layer.
+- **Network security.** Production systems run inside private VPCs with no direct public ingress. All external traffic is routed through load balancers with Web Application Firewall (WAF) rules enabled. We apply strict security-group policies and conduct regular network-level vulnerability scans.
+
+## Application Security
+
+Secure infrastructure matters, but so does the code running on top of it. PathPilot follows a secure software development lifecycle (SDLC) that embeds security reviews into every stage of the engineering process.
+
+- **Dependency scanning.** Every third-party library we use is continuously scanned for known vulnerabilities using automated software composition analysis (SCA) tools. Critical findings block deployment until they are remediated.
+- **Static analysis.** Our CI/CD pipeline runs static application security testing (SAST) on every pull request. Findings are triaged by our security team before code reaches production.
+- **Penetration testing.** We commission annual third-party penetration tests against PathPilot's production environment. Test findings are tracked to remediation and summarized in our SOC2 audit report.
+- **Vulnerability disclosure.** If you discover a security issue in PathPilot, we want to hear from you. Our Vulnerability Disclosure Policy is published at [pathpilot.com/security](https://pathpilot.com/security) and we commit to acknowledging all valid reports within 24 hours.
+- **Code review.** All production changes require peer review and passing automated test suites before merging. Changes to security-sensitive systems require review by a senior engineer or a member of the security team.
+
+## Availability
+
+Downtime during an audit or a compliance review is not just inconvenient — it can jeopardize your certification timeline. We engineer PathPilot for high availability so you can count on the platform when it matters most.
+
+- **99.9% uptime SLA.** PathPilot guarantees 99.9% monthly uptime for all paid plans, equating to less than 45 minutes of unplanned downtime per month. SLA credits are available if we fall short.
+- **Multi-region redundancy.** Production workloads are distributed across multiple AWS Availability Zones. Critical services are designed to survive the failure of any single zone without customer-visible impact.
+- **Automated backups.** Customer data is backed up daily with encrypted snapshots retained for 30 days. Backup integrity is tested quarterly through automated restore drills.
+- **Status page.** Real-time and historical uptime information is always available at [status.pathpilot.com](https://status.pathpilot.com). Subscribe to status updates to receive immediate notifications if an incident affects the platform.
+
+## Compliance
+
+PathPilot holds SOC2 Type II certification, issued after an independent auditor reviewed our controls over a sustained observation period. We do not simply claim compliance — we continuously monitor every control mapped to our certification so that our posture is accurate year-round, not just at audit time.
+
+- **Annual third-party audits.** Our SOC2 report is refreshed annually by an independent CPA firm. You can request a copy through our [Trust Portal](https://trust.pathpilot.com) or by emailing [security@pathpilot.com](mailto:security@pathpilot.com).
+- **Continuous control monitoring.** PathPilot uses its own platform to monitor its controls — we eat our own cooking. Every control that feeds our SOC2 report is tracked with real-time evidence collection and alerting for drift.
+- **Privacy regulations.** PathPilot's data handling practices are designed to support customer obligations under GDPR and CCPA. Our Data Processing Agreement (DPA) is available upon request.
+
+---
+
+## Explore Security Topics
+
+<CardGroup cols={2}>
+  <Card title="SOC2 Compliance" icon="shield-check" href="/security/soc2">
+    Understand PathPilot's SOC2 Type II certification and how the platform helps your organization achieve certification.
+  </Card>
+  <Card title="Data Handling" icon="database" href="/security/data-handling">
+    Learn how PathPilot collects, stores, encrypts, and retains your data, including data residency options.
+  </Card>
+  <Card title="Access Controls" icon="lock" href="/security/access-controls">
+    Explore role-based access control, SSO, MFA, session management, and audit logging features.
+  </Card>
+  <Card title="Incident Response" icon="bell" href="/security/incident-response">
+    Find out how PathPilot handles security incidents and what steps you should take if you suspect a breach.
+  </Card>
+</CardGroup>

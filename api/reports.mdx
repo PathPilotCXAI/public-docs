@@ -1,0 +1,269 @@
+---
+title: "REST API Reference: Reports Endpoints"
+sidebarTitle: "Reports"
+description: "Generate and retrieve PathPilot compliance reports via the API. Use /v1/reports to create SOC2 readiness, evidence, and audit trail reports."
+---
+
+The Reports API lets you programmatically generate and download compliance reports from your PathPilot workspace. Use it to automate report delivery to your board, auditors, or customers — schedule SOC 2 readiness snapshots, bundle evidence packages before an audit, and pull audit trails for any date range, all without opening the dashboard.
+
+## List Reports
+
+Retrieve a paginated list of reports in your workspace, including both completed reports and any currently generating.
+
+```
+GET /v1/reports
+```
+
+### Query Parameters
+
+<ParamField query="type" type="string">
+  Filter by report type. Accepted values: `soc2_readiness`, `evidence_package`, `audit_trail`, `custom`.
+</ParamField>
+
+<ParamField query="limit" type="integer" default="20">
+  The maximum number of reports to return per page. Accepted range: `1`–`100`.
+</ParamField>
+
+<ParamField query="cursor" type="string">
+  A pagination cursor from `meta.next_cursor` in a previous response.
+</ParamField>
+
+### Example Request
+
+```bash
+curl "https://api.pathpilot.com/v1/reports?type=soc2_readiness&limit=10" \
+  -H "Authorization: Bearer pp_live_xxxxxxxxxxxx"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "rpt_5nQk9hMw",
+      "type": "soc2_readiness",
+      "status": "complete",
+      "created_at": "2024-01-15T08:00:00Z",
+      "completed_at": "2024-01-15T08:02:31Z",
+      "date_range": {
+        "start_date": "2023-10-01",
+        "end_date": "2023-12-31"
+      },
+      "download_url": "https://storage.pathpilot.com/reports/rpt_5nQk9hMw?token=..."
+    },
+    {
+      "id": "rpt_2pRj6cVx",
+      "type": "audit_trail",
+      "status": "complete",
+      "created_at": "2024-01-10T14:30:00Z",
+      "completed_at": "2024-01-10T14:31:55Z",
+      "date_range": {
+        "start_date": "2024-01-01",
+        "end_date": "2024-01-10"
+      },
+      "download_url": "https://storage.pathpilot.com/reports/rpt_2pRj6cVx?token=..."
+    }
+  ],
+  "meta": {
+    "request_id": "req_vwx234",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "next_cursor": null,
+    "has_more": false
+  }
+}
+```
+
+### Response Fields
+
+<ResponseField name="id" type="string">
+  The unique identifier for the report.
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The report type: `soc2_readiness`, `evidence_package`, `audit_trail`, or `custom`.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The generation status: `pending`, `processing`, `complete`, or `failed`.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the report generation job was submitted.
+</ResponseField>
+
+<ResponseField name="completed_at" type="string">
+  ISO 8601 timestamp of when the report finished generating. Returns `null` if not yet complete.
+</ResponseField>
+
+<ResponseField name="date_range" type="object">
+  The date range the report covers, with `start_date` and `end_date` as `YYYY-MM-DD` strings.
+</ResponseField>
+
+<ResponseField name="download_url" type="string">
+  A pre-signed URL to download the report file. Valid for 15 minutes from the time you fetch the report object. Returns `null` if the report is not yet complete.
+</ResponseField>
+
+---
+
+## Get a Report
+
+Retrieve the metadata and current status of a single report by its ID. Use this endpoint to poll for completion after submitting a generation request.
+
+```
+GET /v1/reports/{report_id}
+```
+
+### Path Parameters
+
+<ParamField path="report_id" type="string" required>
+  The unique ID of the report to retrieve.
+</ParamField>
+
+### Example Request
+
+```bash
+curl https://api.pathpilot.com/v1/reports/rpt_5nQk9hMw \
+  -H "Authorization: Bearer pp_live_xxxxxxxxxxxx"
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "rpt_5nQk9hMw",
+    "type": "soc2_readiness",
+    "status": "complete",
+    "created_at": "2024-01-15T08:00:00Z",
+    "completed_at": "2024-01-15T08:02:31Z",
+    "date_range": {
+      "start_date": "2023-10-01",
+      "end_date": "2023-12-31"
+    },
+    "filters": {
+      "framework": "soc2_type2"
+    },
+    "download_url": "https://storage.pathpilot.com/reports/rpt_5nQk9hMw?token=..."
+  },
+  "meta": {
+    "request_id": "req_yza567",
+    "timestamp": "2024-01-15T10:31:00Z"
+  }
+}
+```
+
+The `download_url` is a pre-signed URL valid for **15 minutes** from the time this response was generated. If you attempt to download the file after the URL has expired, re-fetch the report object to obtain a fresh URL.
+
+---
+
+## Generate a Report
+
+Submit a request to generate a new compliance report. Report generation is asynchronous — the API returns `202 Accepted` immediately with a report object in `pending` status. Poll `GET /v1/reports/{report_id}` until the `status` field changes to `complete` before attempting to download.
+
+```
+POST /v1/reports
+```
+
+### Request Body
+
+<ParamField body="type" type="string" required>
+  The type of report to generate. Accepted values:
+  - `soc2_readiness` — A point-in-time snapshot of your SOC 2 control coverage and readiness score.
+  - `evidence_package` — A bundled archive of all evidence collected in the specified date range.
+  - `audit_trail` — A chronological log of all user actions and system events in your workspace.
+  - `custom` — A configurable report combining selected controls, frameworks, and evidence types.
+</ParamField>
+
+<ParamField body="date_range" type="object" required>
+  The date range the report should cover. Must include both `start_date` and `end_date` as `YYYY-MM-DD` strings.
+</ParamField>
+
+<ParamField body="filters" type="object">
+  Optional filters to scope the report content. Supported filter keys:
+  - `framework` — Limit to a specific compliance framework, for example `soc2_type2` or `soc2_type1`.
+  - `owner_id` — Limit to controls or evidence owned by a specific user ID.
+  - `status` — Limit to controls or evidence with a specific status (for example, `passing`, `failing`, `in_progress`).
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST https://api.pathpilot.com/v1/reports \
+  -H "Authorization: Bearer pp_live_xxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "soc2_readiness",
+    "date_range": {
+      "start_date": "2023-10-01",
+      "end_date": "2023-12-31"
+    },
+    "filters": {
+      "framework": "soc2_type2"
+    }
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "rpt_8bWm3kYt",
+    "type": "soc2_readiness",
+    "status": "pending",
+    "created_at": "2024-01-15T11:00:00Z",
+    "completed_at": null,
+    "date_range": {
+      "start_date": "2023-10-01",
+      "end_date": "2023-12-31"
+    },
+    "filters": {
+      "framework": "soc2_type2"
+    },
+    "download_url": null
+  },
+  "meta": {
+    "request_id": "req_bcd890",
+    "timestamp": "2024-01-15T11:00:00Z"
+  }
+}
+```
+
+After receiving a `202 Accepted` response, poll the report status using the `id` from the response. The following example polls every 5 seconds until the report is complete.
+
+```python
+import time
+import requests
+
+report_id = "rpt_8bWm3kYt"
+headers = {"Authorization": "Bearer pp_live_xxxxxxxxxxxx"}
+
+while True:
+    response = requests.get(
+        f"https://api.pathpilot.com/v1/reports/{report_id}",
+        headers=headers
+    )
+    report = response.json()["data"]
+
+    if report["status"] == "complete":
+        print("Report ready:", report["download_url"])
+        break
+    elif report["status"] == "failed":
+        raise Exception("Report generation failed")
+    
+    time.sleep(5)
+```
+
+---
+
+## Download a Report
+
+Once a report's `status` is `complete`, use the `download_url` from the report object to download the file. The URL is a pre-signed HTTPS link that does not require the `Authorization` header — pass it directly to any HTTP client or `curl`.
+
+```bash
+curl -L "https://storage.pathpilot.com/reports/rpt_5nQk9hMw?token=..." \
+  -o soc2_readiness_q4_2023.pdf
+```
+
+Pre-signed download URLs are valid for **15 minutes** from the time you retrieve the report object. If the URL has expired when you attempt to download, make a new `GET /v1/reports/{report_id}` request to obtain a fresh URL. PathPilot does not rate-limit report download requests.
