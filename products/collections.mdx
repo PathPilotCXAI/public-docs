@@ -1,0 +1,79 @@
+---
+title: "Collections: AI Voice Agents for Debt Recovery"
+sidebarTitle: "Collections"
+description: "PathPilot Collections runs outbound voice campaigns with AI agents, Twilio dispatch, and Asterisk-based call routing for lenders and collectors."
+---
+
+PathPilot Collections is a voice-first outbound collections product. It combines an AI voice agent, campaign and call management, and a carrier-grade call stack so recovery teams can reach more customers, at the right time, in the right tone, without expanding headcount.
+
+## What it does
+
+Collections runs full outbound calling campaigns end to end:
+
+- Import customer lists and enroll them into a campaign with a target agent.
+- Dispatch outbound calls through Twilio (or another carrier) to the customer's phone.
+- Bridge the live call through Asterisk into an ElevenLabs-powered voice agent that speaks with the customer.
+- Enrich each attempt with call results, transcripts, and downstream linkage back to the campaign.
+- Report on campaign performance, response codes, and per-customer outcomes.
+
+## Who it is for
+
+- Consumer lenders, BNPL providers, and card issuers running early-stage and late-stage collections.
+- Third-party collectors and BPOs that want to scale voice contact without proportional agent hiring.
+- Fintechs that need a controlled, auditable outbound calling stack with per-organization API keys.
+
+## Core capabilities
+
+<CardGroup cols={2}>
+  <Card title="Campaign Management" icon="list-check">
+    Create campaigns, upload customer files, configure schedules, and assign a target voice agent per campaign.
+  </Card>
+
+  <Card title="Outbound Dialing" icon="phone-arrow-up-right">
+    Twilio-based dispatch with SIP headers for org, campaign, attempt, and API key so every call is routable and traceable.
+  </Card>
+
+  <Card title="Live Voice Agent" icon="microphone">
+    Asterisk AudioSocket bridges the customer audio into an ElevenLabs voice agent with dynamic per-customer context.
+  </Card>
+
+  <Card title="Do-Not-Call & Suppression" icon="ban">
+    Per-campaign suppression so customers who opt out or should not be contacted are removed from future attempts.
+  </Card>
+
+  <Card title="Result Hydration" icon="database">
+    Terminal Twilio callbacks and ElevenLabs conversation IDs are linked back to each call attempt for reporting.
+  </Card>
+
+  <Card title="Multi-Tenant & Auditable" icon="shield">
+    Every request is scoped to an organization via API key, with logging and audit trails on call attempts.
+  </Card>
+</CardGroup>
+
+## How a call flows
+
+<Steps>
+  <Step title="Campaign is enrolled">
+    Your customer file is imported. Each row becomes a call attempt against the campaign's assigned agent.
+  </Step>
+  <Step title="Attempt is dispatched">
+    The campaign manager tells Twilio to dial a SIP URI with headers identifying the org, campaign, attempt, and agent.
+  </Step>
+  <Step title="Asterisk routes the call">
+    The gateway extracts SIP headers, calls a pre-flight endpoint to cache routing context, then hands audio to the voice runtime.
+  </Step>
+  <Step title="Voice agent talks to the customer">
+    The runtime opens an ElevenLabs websocket with dynamic variables (name, debt, dates, campaign) and bridges audio in both directions.
+  </Step>
+  <Step title="Result is stored">
+    Twilio status callbacks and the ElevenLabs conversation ID are joined back to the attempt, and the result flows into reporting.
+  </Step>
+</Steps>
+
+## Developer APIs
+
+Collections exposes a small set of developer APIs under `/api/v1/developer/*`, authenticated with per-organization API keys. See the [Collections API summary](/products/collections-api) for the list.
+
+<Note>
+  Full endpoint reference, request/response schemas, and API keys are available after you request access at [getpathpilot.com](https://getpathpilot.com).
+</Note>

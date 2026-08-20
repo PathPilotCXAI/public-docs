@@ -21,81 +21,31 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Sign In",
-      "href": "https://app.pathpilot.com"
+      "label": "Request Access",
+      "href": "https://getpathpilot.com"
     }
   },
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "Documentation",
-        "groups": [
-          {
-            "group": "Get Started",
-            "pages": [
-              "introduction",
-              "quickstart",
-              "core-concepts"
-            ]
-          },
-          {
-            "group": "Security & Compliance",
-            "pages": [
-              "security/overview",
-              "security/soc2",
-              "security/data-handling",
-              "security/access-controls",
-              "security/incident-response"
-            ]
-          },
-          {
-            "group": "Platform Features",
-            "pages": [
-              "features/dashboard",
-              "features/workflows",
-              "features/reporting",
-              "features/integrations"
-            ]
-          },
-          {
-            "group": "Account Management",
-            "pages": [
-              "account/authentication",
-              "account/user-management",
-              "account/permissions",
-              "account/billing"
-            ]
-          },
-          {
-            "group": "Help & Support",
-            "pages": [
-              "support/faq",
-              "support/troubleshooting",
-              "support/contact"
-            ]
-          }
+        "group": "Get Started",
+        "pages": [
+          "introduction"
         ]
       },
       {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": [
-              "api/introduction",
-              "api/authentication",
-              "api/errors"
-            ]
-          },
-          {
-            "group": "Endpoints",
-            "pages": [
-              "api/users",
-              "api/workflows",
-              "api/reports",
-              "api/webhooks"
-            ]
-          }
+        "group": "Products",
+        "pages": [
+          "products/collections",
+          "products/collections-api",
+          "products/loan-origination",
+          "products/quality"
+        ]
+      },
+      {
+        "group": "Platform",
+        "pages": [
+          "platform/overview"
         ]
       }
     ]

@@ -1,0 +1,81 @@
+---
+title: "Collections API: Developer Endpoints Summary"
+sidebarTitle: "Collections API"
+description: "Summary of the PathPilot Collections developer APIs for agents, campaign import, campaign runs, suppression, and results, with API-key auth."
+---
+
+The Collections product exposes a compact developer API under `/api/v1/developer/*` so lenders and collectors can plug PathPilot into their existing systems. This page is a high-level catalog. Full request and response schemas, base URLs, and API keys are provided after you request access.
+
+## Authentication
+
+Every developer endpoint is authenticated with an organization API key passed on the request. Requests are scoped to the calling organization, so you only ever see and modify your own campaigns, attempts, and results.
+
+<Note>
+  API keys are issued after you request access at [getpathpilot.com](https://getpathpilot.com). Do not share or commit keys.
+</Note>
+
+## Endpoint catalog
+
+<CardGroup cols={2}>
+  <Card title="List Agents" icon="robot">
+    `GET /api/v1/developer/agents`
+
+    Return the operational voice agents your organization can assign to campaigns.
+  </Card>
+
+  <Card title="Import Campaign" icon="upload">
+    `POST /api/v1/developer/campaigns/import`
+
+    Upload a customer file to create or enrich a campaign. Supports provider and creditor hints, dry-run validation, and a target agent.
+  </Card>
+
+  <Card title="Get Job" icon="clock-rotate-left">
+    `GET /api/v1/developer/jobs/{job_id}`
+
+    Poll the status of an async import or run job started by another developer endpoint.
+  </Card>
+
+  <Card title="Trigger Campaign Run" icon="play">
+    `POST /api/v1/developer/campaigns/{campaign_id}/run`
+
+    Kick off a run for an existing campaign. Returns a job ID and a status URL to poll.
+  </Card>
+
+  <Card title="Suppress Contacts" icon="ban">
+    `POST /api/v1/develop/campaigns/{campaign_id}/do_not_call`
+
+    Add customers to the do-not-call list for a specific campaign so future attempts skip them.
+  </Card>
+
+  <Card title="List Call Results" icon="table">
+    `GET /api/v1/developer/results`
+
+    Paginated call results for a campaign, sortable by response code and other fields. Includes summary aggregates.
+  </Card>
+</CardGroup>
+
+## Typical integration flow
+
+<Steps>
+  <Step title="List available agents">
+    Call `GET /api/v1/developer/agents` to discover which voice agents your org can attach to campaigns.
+  </Step>
+  <Step title="Import your customer list">
+    Send `POST /api/v1/developer/campaigns/import` with the file and the target `agent_id`. You get back a job ID.
+  </Step>
+  <Step title="Poll the job">
+    Use `GET /api/v1/developer/jobs/{job_id}` until the import completes.
+  </Step>
+  <Step title="Run the campaign">
+    Call `POST /api/v1/developer/campaigns/{campaign_id}/run` to start dialing. Suppress specific contacts with the `do_not_call` endpoint as needed.
+  </Step>
+  <Step title="Pull results">
+    Read paginated outcomes and summaries from `GET /api/v1/developer/results`.
+  </Step>
+</Steps>
+
+## Get full documentation and credentials
+
+<Card title="Request access at getpathpilot.com" icon="arrow-up-right-from-square" href="https://getpathpilot.com">
+  Sign up to receive API keys, sandbox credentials, and full endpoint documentation including request bodies, response schemas, error codes, and rate limits.
+</Card>

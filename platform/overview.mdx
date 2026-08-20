@@ -1,0 +1,56 @@
+---
+title: "Platform Overview: How PathPilot Agents Work"
+sidebarTitle: "Platform"
+description: "A short overview of the PathPilot agent platform: templates, knowledge bases, workflows, and per-organization multi-tenant execution."
+---
+
+The PathPilot platform is the shared foundation behind every product. Collections, Loan Origination, and Quality all run on top of it. This page is a brief overview, not a full technical reference.
+
+## The core idea
+
+A PathPilot agent is a template plus configuration, executed inside an organization-scoped runtime with access to your data and tools. You configure agents once, then run them against real customer interactions across voice, chat, and email.
+
+## Building blocks
+
+<CardGroup cols={2}>
+  <Card title="Templates" icon="stamp">
+    Reusable blueprints that define an agent's prompt, tools, and workflow. Instances are created from a template and customized per use case.
+  </Card>
+
+  <Card title="Knowledge Bases" icon="book">
+    Vector stores that ground agent responses in your policies, playbooks, and documents. Content comes from URL crawls or file uploads.
+  </Card>
+
+  <Card title="Workflows" icon="diagram-project">
+    LangGraph-based orchestration for multi-step tasks like QA scoring, KYC review, or campaign runs. Executed in test or production mode.
+  </Card>
+
+  <Card title="Tools & Integrations" icon="plug">
+    Agents call typed tools (knowledge search, ticket lookups, decisioning engines, Twilio, ElevenLabs) to take real action.
+  </Card>
+</CardGroup>
+
+## How execution works
+
+<Steps>
+  <Step title="An event arrives">
+    A customer sends a WhatsApp message, a call is dispatched, or a workflow is triggered on a schedule.
+  </Step>
+  <Step title="The runtime hydrates context">
+    The right template is loaded, configuration is resolved (including secrets), and the agent is scoped to the calling organization.
+  </Step>
+  <Step title="The agent works">
+    It retrieves from the knowledge base if needed, calls tools, follows its workflow, and generates a response or action.
+  </Step>
+  <Step title="Results are recorded">
+    Executions, transcripts, and outcomes are stored so you can review quality, audit decisions, and improve prompts and rubrics.
+  </Step>
+</Steps>
+
+## Multi-tenant and auditable
+
+Everything runs per organization. Data, credentials, and agent instances are isolated. Every execution is logged and linkable back to the campaign, ticket, or application it belongs to, so you can audit decisions and coach agents with confidence.
+
+<Note>
+  Deeper technical documentation (template schemas, workflow node contracts, runtime internals) is available to customers after access is granted. Request access at [getpathpilot.com](https://getpathpilot.com).
+</Note>
